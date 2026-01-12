@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
-import DonationBank from "../assets/images/donatecard.jpeg";
+import DonationBank from "../assets/images/donationbank.jpeg";
 import SamvithLogo from "../assets/images/logo.jpeg";
 
 const GOOGLE_SCRIPT_URL ="https://script.google.com/macros/s/AKfycbxStJfg1LyPCFaXI0qfz_tai27CIkNPb_qowLAsE7s5Kt8qEiOGEgq-LOuLzT09-hbiJQ/exec";
