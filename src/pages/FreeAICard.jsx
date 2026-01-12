@@ -17,11 +17,11 @@ import { Users, Briefcase, Shield, PenTool, BookOpen } from "lucide-react";
 
 const FreeAICard = () => {
   const registrationCategories = [
-    "5 Farmers – to embrace modern techniques and digital tools",
-    "15 Students – to improve career readiness and digital literacy",
-    "10 Job Seekers – to enhance employability through job-focused training",
-    "5 Police Personnel – to strengthen communication and tech skills",
-    "5 Journalists / News Reporters – to support ethical and impactful reporting",
+    // "5 Farmers – to embrace modern techniques and digital tools",
+    "Students – to improve career readiness and digital literacy",
+    // "10 Job Seekers – to enhance employability through job-focused training",
+    // "5 Police Personnel – to strengthen communication and tech skills",
+    // "5 Journalists / News Reporters – to support ethical and impactful reporting",
   ];
 
   const learningTopics = [
@@ -37,31 +37,31 @@ const FreeAICard = () => {
 
   // Eligibility cards
   const eligibility = [
-    {
-      icon: <Users className="w-10 h-10 text-indigo-600" />,
-      title: "Farmers",
-      desc: "Adopt modern techniques & digital tools.",
-    },
+    // {
+    //   icon: <Users className="w-10 h-10 text-indigo-600" />,
+    //   title: "Farmers",
+    //   desc: "Adopt modern techniques & digital tools.",
+    // },
     {
       icon: <BookOpen className="w-10 h-10 text-green-600" />,
       title: "Students",
       desc: "Improve career readiness & digital literacy.",
     },
-    {
-      icon: <PenTool className="w-10 h-10 text-pink-600" />,
-      title: "Journalists",
-      desc: "Support ethical & impactful reporting.",
-    },
-    {
-      icon: <Briefcase className="w-10 h-10 text-yellow-600" />,
-      title: "Job Seekers",
-      desc: "Enhance employability & job-focused training.",
-    },
-    {
-      icon: <Shield className="w-10 h-10 text-blue-600" />,
-      title: "Police Personnel",
-      desc: "Strengthen communication & tech skills.",
-    },
+    // {
+    //   icon: <PenTool className="w-10 h-10 text-pink-600" />,
+    //   title: "Journalists",
+    //   desc: "Support ethical & impactful reporting.",
+    // },
+    // {
+    //   icon: <Briefcase className="w-10 h-10 text-yellow-600" />,
+    //   title: "Job Seekers",
+    //   desc: "Enhance employability & job-focused training.",
+    // },
+    // {
+    //   icon: <Shield className="w-10 h-10 text-blue-600" />,
+    //   title: "Police Personnel",
+    //   desc: "Strengthen communication & tech skills.",
+    // },
   ];
 
   return (
@@ -193,7 +193,7 @@ const FreeAICard = () => {
           ))}
         </div>
 
-        {/* Middle card */}
+        {/* Middle card
         <motion.div
           className="relative bg-white p-8 sm:p-12 rounded-2xl shadow-lg text-center w-full sm:w-80 lg:w-96 overflow-hidden group"
           whileHover={{ y: -8, rotate: -1 }}
@@ -209,9 +209,9 @@ const FreeAICard = () => {
           <p className="relative z-10 text-sm sm:text-base text-gray-600">
             {eligibility[2].desc}
           </p>
-        </motion.div>
+        </motion.div> */}
 
-        {/* Bottom row (2 cards) */}
+        {/* Bottom row (2 cards)
         <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
           {eligibility.slice(3).map((item, idx) => (
             <motion.div
@@ -232,7 +232,7 @@ const FreeAICard = () => {
               </p>
             </motion.div>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Highlights Horizontal Slide */}

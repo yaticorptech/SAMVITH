@@ -44,8 +44,8 @@ const Navbar = () => {
               </button>
               <ul className="absolute left-0 mt-2 w-56 bg-white shadow-lg rounded-lg opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transform translate-y-2 transition-all duration-300 invisible group-hover:visible text-sm">
                 <li><NavLink to="/education" className="block px-4 py-2 hover:bg-gray-100">Education</NavLink></li>
-                <li><NavLink to="/women-empowerment" className="block px-4 py-2 hover:bg-gray-100">Women Empowerment</NavLink></li>
-                <li><NavLink to="/agriculture" className="block px-4 py-2 hover:bg-gray-100">Agriculture</NavLink></li>
+                {/* <li><NavLink to="/women-empowerment" className="block px-4 py-2 hover:bg-gray-100">Women Empowerment</NavLink></li>
+                <li><NavLink to="/agriculture" className="block px-4 py-2 hover:bg-gray-100">Agriculture</NavLink></li> */}
                 <li><NavLink to="/Scholarship" className="block px-4 py-2 hover:bg-gray-100">Scholarship</NavLink></li>
                 <li><NavLink to="/FreeAICard" className="block px-4 py-2 hover:bg-gray-100">Free AI Card</NavLink></li>
               </ul>
