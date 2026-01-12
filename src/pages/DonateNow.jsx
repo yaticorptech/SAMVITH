@@ -7,8 +7,7 @@ import { motion } from "framer-motion";
 import DonationBank from "../assets/images/donationbank.jpeg";
 import SamvithLogo from "../assets/images/logo.jpeg";
 
-const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbwJ3VNXdQ7vW70NBbm0he04M8uAdt2FJ9UyVIJ41pHwsObwFCGkPDx6r7WOFWisSycM9w/exec";
+const GOOGLE_SCRIPT_URL ="https://script.google.com/macros/s/AKfycbxStJfg1LyPCFaXI0qfz_tai27CIkNPb_qowLAsE7s5Kt8qEiOGEgq-LOuLzT09-hbiJQ/exec";
 
 const DonateNow = () => {
   const navigate = useNavigate();
