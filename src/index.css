@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ✅ Custom pulse animation for modal */
+@keyframes pulse-soft {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 165, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 100, 0, 0.6);
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s infinite;
+}

@@ -1,0 +1,595 @@
+// src/pages/Home.jsx
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  BookOpen,
+  Users,
+  Leaf,
+  GraduationCap,
+  IdCard,
+  Target,
+  Heart,
+} from "lucide-react";
+
+// ✅ Images
+import HeroImage from "../assets/images/helping.jpg";
+import MissionImage from "../assets/images/1.webp";
+import Up1 from "../assets/images/up1.webp";
+import samvithLogo from "../assets/images/logo.png";
+import YatiLogo from "../assets/images/Yaticorp.png";
+import RamakrishnaLogo from "../assets/images/Ramakrishna.png";
+import FarmersLogo from "../assets/images/Southcc.jpeg";
+import IndiaMap from "../assets/images/INDIA.jpg";
+
+const logos = Array(15).fill(samvithLogo);
+
+// ✅ Glimpse Data
+const glimpseData = [
+  {
+    title: "Education",
+    description:
+      "Empowering children and youth through access to quality education and resources.",
+    link: "/education",
+    icon: <BookOpen className="text-blue-500 w-8 h-8 sm:w-10 sm:h-10" />,
+  },
+  {
+    title: "Women Empowerment",
+    description:
+      "Supporting women with opportunities, skills, and resources for a brighter future.",
+    link: "/women-empowerment",
+    icon: <Users className="text-pink-500 w-8 h-8 sm:w-10 sm:h-10" />,
+  },
+  {
+    title: "Agriculture",
+    description:
+      "Enhancing rural livelihoods through sustainable agricultural practices.",
+    link: "/agriculture",
+    icon: <Leaf className="text-green-500 w-8 h-8 sm:w-10 sm:h-10" />,
+  },
+  {
+    title: "Scholarship / Check Eligibility",
+    description:
+      "Providing financial aid and opportunities for deserving students.",
+    link: "/scholarship",
+    icon: (
+      <GraduationCap className="text-yellow-500 w-8 h-8 sm:w-10 sm:h-10" />
+    ),
+  },
+  {
+    title: "Free AI Card",
+    description:
+      "Ensuring access to healthcare and services through AI-powered identity cards.",
+    link: "/free-ai-card",
+    icon: <IdCard className="text-purple-500 w-8 h-8 sm:w-10 sm:h-10" />,
+  },
+];
+
+const Home = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  /**
+   * NOTE: splash screen removed.
+   * Keep a short delay to show the CTA modal after mount (previous behavior showed it after splash).
+   */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowModal(true);
+    }, 500); // short delay after mount
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Karnataka markers positioned relative to the map container (percentages)
+  const markers = [
+    { name: "Bengaluru", top: "60%", left: "48%", sold: 120 },
+    { name: "Mysuru", top: "68%", left: "44%", sold: 45 },
+    { name: "Hubli", top: "52%", left: "35%", sold: 30 },
+    { name: "Mangaluru", top: "72%", left: "38%", sold: 20 },
+    { name: "Udupi", top: "69%", left: "37%", sold: 15 },
+  ];
+
+  return (
+    <>
+      {/* --------------------------
+          Main page content (splash removed)
+          -------------------------- */}
+      {/* ✅ Hero Section */}
+      <div
+        className="relative bg-cover bg-center bg-no-repeat px-4 sm:px-6 lg:px-20 pb-52 pt-60"
+        style={{ backgroundImage: `url(${HeroImage})` }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="relative max-w-6xl mx-auto flex flex-col items-center text-center sm:text-left gap-8 z-10">
+          <h1 className="font-extrabold text-white leading-snug">
+            <span className="block text-[clamp(1.5rem,5.5vw,2.75rem)]">
+              Transforming lives, building a better
+            </span>
+            <span className="block w-fit mx-auto text-[clamp(1.5rem,5.5vw,3.75rem)] text-yellow-400">
+              tomorrow
+            </span>
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-200 max-w-3xl">
+            Together we can turn hope into reality. Support our mission and be
+            part of someone’s success story.
+          </p>
+          <div>
+            <Link
+              to="/donate-now"
+              className="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg shadow-lg transition duration-300 text-lg inline-block"
+            >
+              Donate Now
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ✅ Logo Slider */}
+      <div className="w-full bg-white overflow-hidden py-6">
+        <div className="flex w-max animate-scroll gap-12 sm:gap-16">
+          {logos.concat(logos).map((logo, index) => (
+            <img
+              key={index}
+              src={logo}
+              alt="Samvith Logo"
+              className="h-20 sm:h-28 w-auto object-contain"
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* ✅ Glimpse Section */}
+      <div className="bg-[#fdfaf5] py-16 sm:py-20 px-4 sm:px-6 lg:px-20">
+        <div className="max-w-8xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-3xl font-extrabold mb-12 bg-gradient-to-r from-yellow-600 via-orange-500 to-pink-500 bg-clip-text text-transparent">
+            Our expertise across multiple practice areas
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {glimpseData.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                className="group bg-white rounded-2xl shadow-md p-6 hover:-translate-y-2 hover:shadow-lg flex flex-col items-center text-center"
+              >
+                <div className="relative flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-gradient-to-tr from-yellow-50 to-white shadow-inner group-hover:scale-110 transform transition duration-300">
+                  <span className="absolute inset-0 rounded-full bg-yellow-400 opacity-0 group-hover:opacity-30 animate-ping"></span>
+                  {item.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3 group-hover:text-yellow-700">
+                  {item.title}
+                </h3>
+                <p className="text-gray-600 text-sm mb-4">{item.description}</p>
+                <Link
+                  to={item.link}
+                  className="mt-auto inline-block bg-yellow-600 hover:bg-yellow-700 text-white font-medium px-4 py-2 rounded-lg shadow transition duration-300"
+                >
+                  Read More
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ✅ Mission & Vision */}
+      <div className="bg-[#f8f5f0] py-16 sm:py-20 px-4 sm:px-6 lg:px-20">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+          <motion.div
+            className="flex justify-center md:justify-start"
+            initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
+          >
+            <img
+              src={Up1}
+              alt="Vision Mission Left"
+              className="w-full max-w-xs md:max-w-sm rounded-lg shadow-lg"
+            />
+          </motion.div>
+
+          <motion.div
+            className="text-center md:text-left"
+            initial={{ y: 50, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <div className="mb-12">
+              <p className="text-sm text-yellow-700 font-medium mb-2">
+                Our Vision
+              </p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                The Change We Imagine
+              </h2>
+              <p className="text-gray-600">
+                To create a sustainable and inclusive society where every
+                individual has access to education, healthcare, and
+                opportunities for a better future.
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-yellow-700 font-medium mb-2">
+                Our Mission
+              </p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                The Change We Drive
+              </h2>
+              <p className="text-gray-600">
+                To ignite hope and opportunity by giving affordable access to
+                AI-powered learning, bridging education gaps, empowering women,
+                and introducing farmers to modern tools — so that technology and
+                skills become a right, not a privilege, and entire communities
+                can rise together.
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="flex justify-center md:justify-end"
+            initial={{ x: 100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
+          >
+            <img
+              src={MissionImage}
+              alt="Vision Mission Right"
+              className="w-full max-w-xs md:max-w-sm rounded-lg shadow-lg"
+            />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* ✅ Partners Section */}
+      <div className="bg-gradient-to-r from-yellow-50 to-pink-30 py-16 text-center">
+        <h2 className="text-2xl sm:text-3xl font-extrabold mb-10 text-gray-900">
+          Supporting Partners
+        </h2>
+        <div className="flex flex-wrap justify-center gap-8 sm:gap-12 md:gap-16">
+          <div className="flex items-center transform transition duration-300 hover:scale-105 hover:shadow-lg">
+            <img
+              src={YatiLogo}
+              alt="Education Partner"
+              className="h-20 sm:h-24 md:h-32 w-auto object-contain"
+            />
+          </div>
+          <div className="flex items-center transform transition duration-300 hover:scale-105 hover:shadow-lg">
+            <img
+              src={RamakrishnaLogo}
+              alt="Women Empowerment Partner"
+              className="h-20 sm:h-24 md:h-32 w-auto object-contain"
+            />
+          </div>
+          <div className="flex items-center transform transition duration-300 hover:scale-105 hover:shadow-lg">
+            <img
+              src={FarmersLogo}
+              alt="Agriculture Partner"
+              className="h-20 sm:h-24 md:h-32 w-auto object-contain"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ✅ Stats Section with Equal Map & Cards (with Karnataka markers) */}
+      <div className="bg-gradient-to-r from-yellow-50 to-pink-50 py-20 px-6 lg:px-20">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-center bg-gradient-to-r from-pink-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent mb-8">
+          Where We Stand, Where We Serve
+        </h2>
+
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          {/* 📍 Map */}
+          <div className="relative w-full h-[450px]">
+            <div className="w-full h-full rounded-3xl shadow-2xl overflow-visible bg-white/80 backdrop-blur-md p-4 flex items-center justify-center">
+              {/* Map wrapper is relative so markers are positioned against it */}
+              <div className="relative w-full h-full">
+                <img
+                  src={IndiaMap}
+                  alt="India Karnataka Presence"
+                  className="rounded-xl w-full h-full object-contain"
+                />
+
+                {/* --- Markers (Karnataka) --- */}
+                {markers.map((loc, idx) => (
+                  <div
+                    key={idx}
+                    className="absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-auto"
+                    style={{ top: loc.top, left: loc.left }}
+                  >
+                    <div className="relative group">
+                      {/* Pulsing ring */}
+                      <span className="absolute -inset-0 inline-flex w-8 h-8 rounded-full bg-red-400 opacity-60 animate-ping"></span>
+
+                      {/* Core marker with number */}
+                      <div className="relative z-10 bg-gradient-to-tr from-red-500 to-pink-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-sm font-bold shadow-lg transition-transform transform group-hover:scale-110">
+                        {loc.sold}
+                      </div>
+
+                      {/* Tooltip: shows on hover */}
+                      <div className="absolute -top-14 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                        <div className="bg-white text-xs text-gray-800 px-2 py-1 rounded-lg shadow-lg whitespace-nowrap">
+                          <strong className="block text-sm">{loc.name}</strong>
+                          <span className="block text-[11px] text-gray-600">
+                            {loc.sold} units
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* small label under marker */}
+                    <span className="mt-2 text-xs font-semibold text-gray-800 bg-white/90 px-2 py-0.5 rounded-lg shadow">
+                      {loc.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* 📊 Stats */}
+          <div className="grid grid-cols-2 gap-6 h-[450px]">
+            {[
+              {
+                value: "50+",
+                label: "Villages Reached",
+                icon: Target,
+                color: "from-yellow-500 to-orange-500",
+                bg: "bg-gradient-to-r from-yellow-500 to-orange-500",
+                symbol: (
+                  <motion.svg
+                    className="absolute w-32 h-32 opacity-10"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
+                  >
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                  </motion.svg>
+                ),
+              },
+              {
+                value: "10k+",
+                label: "Lives Impacted",
+                icon: Heart,
+                color: "from-pink-500 to-red-500",
+                bg: "bg-gradient-to-r from-pink-500 to-red-500",
+                symbol: (
+                  <motion.svg
+                    className="absolute w-32 h-32 opacity-10"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                  >
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                  </motion.svg>
+                ),
+              },
+              {
+                value: "200+",
+                label: "Women Empowered",
+                icon: Users,
+                color: "from-green-500 to-emerald-500",
+                bg: "bg-gradient-to-r from-green-500 to-emerald-500",
+                symbol: (
+                  <motion.svg
+                    className="absolute w-32 h-32 opacity-10"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    animate={{ rotate: [0, 5, 0, -5, 0] }}
+                    transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                  >
+                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.03 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                  </motion.svg>
+                ),
+              },
+              {
+                value: "500+",
+                label: "Students Supported",
+                icon: GraduationCap,
+                color: "from-blue-500 to-indigo-500",
+                bg: "bg-gradient-to-r from-blue-500 to-indigo-500",
+                symbol: (
+                  <motion.svg
+                    className="absolute w-32 h-32 opacity-10"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    animate={{ y: [0, 5, 0] }}
+                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                  >
+                    <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM12 12l-8-4 8-4 8 4-8 4z" />
+                  </motion.svg>
+                ),
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  duration: 0.6,
+                  delay: i * 0.15,
+                  type: "spring",
+                  stiffness: 120,
+                }}
+                className="relative flex flex-col justify-center items-center rounded-2xl shadow-xl text-center bg-white/80 backdrop-blur-md border border-gray-100 hover:shadow-2xl transform transition hover:-translate-y-1 hover:scale-105 p-6"
+              >
+                {/* Animated Background Symbol */}
+                {item.symbol}
+
+                {/* Floating Glow */}
+                <motion.div
+                  className={`absolute w-20 h-20 rounded-full ${item.bg} opacity-30 blur-2xl z-0`}
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+                />
+
+                {/* Sparkles */}
+                <div className="absolute inset-0 flex justify-center items-center pointer-events-none z-10">
+                  {[...Array(5)].map((_, idx) => (
+                    <motion.span
+                      key={idx}
+                      className="absolute w-2 h-2 bg-white rounded-full opacity-70"
+                      initial={{ scale: 0, x: 0, y: 0, opacity: 0.7 }}
+                      animate={{
+                        x: [0, Math.random() * 40 - 20, 0],
+                        y: [0, Math.random() * 40 - 20, 0],
+                        scale: [0, 1, 0],
+                        opacity: [0.7, 1, 0],
+                      }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 2 + Math.random() * 2,
+                        ease: "easeInOut",
+                        delay: Math.random(),
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* Icon with circle background */}
+                <div
+                  className={`relative w-16 h-16 flex items-center justify-center rounded-full ${item.bg} shadow-md mb-4 transform transition hover:scale-110 z-20`}
+                >
+                  <item.icon className="w-8 h-8 text-white" />
+                </div>
+
+                <h3
+                  className={`text-3xl font-extrabold mb-1 bg-clip-text text-transparent bg-gradient-to-r ${item.color} z-20`}
+                >
+                  {item.value}
+                </h3>
+                <p className="text-gray-700 font-medium z-20">{item.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ✅ Donation Slabs */}
+      <div className="bg-gradient-to-br from-yellow-50 via-pink-50 to-orange-50 py-20 px-6 lg:px-20 text-center relative overflow-hidden">
+        {/* Heading */}
+        <h2 className="text-3xl sm:text-4xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-pink-600">
+          Donate AI Education for Students 🚀
+        </h2>
+        <p className="text-gray-700 max-w-2xl mx-auto mb-12">
+          Every contribution empowers students with future-ready AI skills.
+          Your support fuels learning, innovation, and brighter opportunities. 🌟
+        </p>
+
+        {/* Donation Slabs */}
+        <div className="flex justify-center gap-6 flex-wrap">
+          {/* ₹500 Slab */}
+          <Link to="/donate-now" state={{ amount: 500 }} className="relative group">
+            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-2xl px-8 py-6 transition transform hover:-translate-y-2 hover:scale-105 border border-orange-200">
+              <span className="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                Basic
+              </span>
+              <h3 className="text-2xl font-extrabold text-orange-600 mb-2">₹500</h3>
+              <p className="text-sm text-gray-600 group-hover:text-gray-800">
+                Support one student’s AI learning journey
+              </p>
+            </div>
+          </Link>
+
+          {/* ₹1000 Slab */}
+          <Link to="/donate-now" state={{ amount: 1000 }} className="relative group">
+            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-2xl px-8 py-6 transition transform hover:-translate-y-2 hover:scale-105 border border-orange-200">
+              <span className="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                Popular
+              </span>
+              <h3 className="text-2xl font-extrabold text-orange-600 mb-2">₹1000</h3>
+              <p className="text-sm text-gray-600 group-hover:text-gray-800">
+                Empower a small group of students
+              </p>
+            </div>
+          </Link>
+
+          {/* ₹2500 Slab */}
+          <Link to="/donate-now" state={{ amount: 2500 }} className="relative group">
+            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-2xl px-8 py-6 transition transform hover:-translate-y-2 hover:scale-105 border border-orange-200">
+              <span className="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                Premium
+              </span>
+              <h3 className="text-2xl font-extrabold text-orange-600 mb-2">₹2500</h3>
+              <p className="text-sm text-gray-600 group-hover:text-gray-800">
+                Fund an entire classroom with AI education
+              </p>
+            </div>
+          </Link>
+
+          {/* ₹5000 Slab */}
+          <Link to="/donate-now" state={{ amount: 5000 }} className="relative group">
+            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-2xl px-8 py-6 transition transform hover:-translate-y-2 hover:scale-105 border border-orange-200">
+              <span className="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                Premium
+              </span>
+              <h3 className="text-2xl font-extrabold text-orange-600 mb-2">₹5000</h3>
+              <p className="text-sm text-gray-600 group-hover:text-gray-800">
+                Transform a batch of students into innovators
+              </p>
+            </div>
+          </Link>
+        </div>
+
+        {/* Motivational Footer */}
+        <p className="mt-12 text-lg font-semibold text-pink-600">
+          🌱 Small steps create big change. Start your impact today!
+        </p>
+      </div>
+
+      {/* ✅ CTA Modal Pop-up (still present; opens after mount) */}
+      {showModal && (
+  <motion.div
+    initial={{ opacity: 0, x: 50, y: 50 }}
+    animate={{ opacity: 1, x: 0, y: 0 }}
+    exit={{ opacity: 0, x: 50, y: 50 }}
+    transition={{ duration: 1.0, type: "spring" }}
+    className="fixed bottom-4 right-4 z-50"
+  >
+    <motion.div
+      className="relative bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-orange-300"
+    >
+      {/* Close button */}
+      <button
+        className="absolute top-2 right-3 text-gray-500 text-2xl font-bold hover:text-gray-700"
+        onClick={() => setShowModal(false)}
+      >
+        &times;
+      </button>
+
+      {/* Heading */}
+      <h2 className="text-2xl sm:text-3xl font-extrabold mb-3 text-center text-orange-600">
+        Almost There!
+      </h2>
+
+      {/* Message */}
+      <p className="mb-6 text-gray-600 text-center">
+        Sign up now for our upcoming workshop and be part of the positive change.
+      </p>
+
+      {/* CTA button */}
+      <div className="text-center">
+        <Link
+          to="/Signup"
+          className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold px-6 py-3 
+                     rounded-xl shadow-lg hover:scale-105 transition-transform duration-300"
+          onClick={() => setShowModal(false)}
+        >
+          Sign Up
+        </Link>
+      </div>
+    </motion.div>
+  </motion.div>
+)}
+
+
+    </>
+  );
+};
+
+export default Home;
