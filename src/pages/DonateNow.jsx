@@ -8,7 +8,7 @@ import DonationBank from "../assets/images/donationbank.jpeg";
 import SamvithLogo from "../assets/images/logo.jpeg";
 
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxyjKa70u8XIqXE79fw3FEF1ngAIFcPGylrpTNynSVvAok6txxHxMPieUZIkwkiJx_q/exec";
+  "https://script.google.com/macros/s/AKfycbwJ3VNXdQ7vW70NBbm0he04M8uAdt2FJ9UyVIJ41pHwsObwFCGkPDx6r7WOFWisSycM9w/exec";
 
 const DonateNow = () => {
   const navigate = useNavigate();
