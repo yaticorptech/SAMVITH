@@ -50,7 +50,7 @@ const Footer = () => {
     {[
       { name: "Home", to: "/" },
       { name: "About Us", to: "/about" },
-      { name: "Trustees", to: "/trustee" },
+      // { name: "Trustees", to: "/trustee" },
       { name: "Contact", to: "/contact" },
       { name: "News & Blogs", to: "/news-blogs" }
     ].map((link) => (

@@ -39,14 +39,14 @@ const SocialMediaBar = () => {
         >
           <FaLinkedinIn size={18} />
         </a>
-        <a
+        {/* <a
           href="https://youtube.com"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-red-600 text-white p-3 rounded-r-lg shadow-lg hover:bg-red-700 transition"
         >
           <FaYoutube size={18} />
-        </a>
+        </a> */}
       </div>
 
       {/* Mobile View (bottom horizontal bar) */}

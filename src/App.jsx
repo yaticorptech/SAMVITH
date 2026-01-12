@@ -9,9 +9,9 @@ import Trustee from "./pages/Trustee";
 import Contact from "./pages/Contact";
 import WhatWeDo from "./pages/WhatWeDo";  // ✅ What We Do overview
 import Education from "./pages/Education"; // ✅ NEW Education page
-import WomenEmpowerment from "./pages/WomenEmpowerment";
+// import WomenEmpowerment from "./pages/WomenEmpowerment";
 import SocialMediaBar from "./components/Socialmediabar"; 
-import Agriculture from "./pages/Agriculture";
+// import Agriculture from "./pages/Agriculture";
 import Scholarship from "./pages/Scholarship";
 import FreeAICard from "./pages/FreeAICard";
 import DonateNow from "./pages/DonateNow"; // ✅ Import DonateNow page
@@ -41,10 +41,10 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/wedo" element={<WhatWeDo />} /> 
             <Route path="/education" element={<Education />} /> {/* ✅ Added route */}
-            <Route path="/women-empowerment" element={<WomenEmpowerment />} />
-            <Route path="/agriculture" element={<Agriculture />} />
+            {/* <Route path="/women-empowerment" element={<WomenEmpowerment />} /> */}
+            {/* <Route path="/agriculture" element={<Agriculture />} /> */}
             <Route path="/Scholarship" element={<Scholarship />} />
-            <Route path="/FreeAICard" element={<FreeAICard />} />
+            <Route path="/free-ai-card" element={<FreeAICard />} />
             {/* <Route path="/trustee" element={<Trustee />} /> */}
             <Route path="/news-blogs" element={<NewsBlogs />} />
             <Route path="/contact" element={<Contact />} />

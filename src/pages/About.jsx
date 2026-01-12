@@ -1,8 +1,8 @@
 // src/pages/AboutPage.jsx
 import React from "react";
 import { motion } from "framer-motion";
-import handshakeImage from "../assets/images/handshake.jpg";
-import handshakeImage2 from "../assets/images/handshake2.jpg";
+import handshakeImage from "../assets/images/ab1.png";
+import handshakeImage2 from "../assets/images/ab2.png";
 
 const textVariant = {
   hidden: { opacity: 0, y: 40 },
@@ -72,14 +72,14 @@ const AboutPage = () => {
                 title: "Bridge Education Gaps:",
                 desc: "Make quality training in English, regional languages, and technology accessible to underprivileged students so they can transform their dreams into skills and sustainable livelihoods.",
               },
-              {
-                title: "Champion Women Empowerment:",
-                desc: "Support women to upskill, gain digital literacy, and pursue entrepreneurial or income-generating activities.",
-              },
-              {
-                title: "Strengthen Agriculture Communities:",
-                desc: "Introduce farmers and rural youth to AI-driven tools and modern agricultural practices, improving productivity and resilience.",
-              },
+              // {
+              //   title: "Champion Women Empowerment:",
+              //   desc: "Support women to upskill, gain digital literacy, and pursue entrepreneurial or income-generating activities.",
+              // },
+              // {
+              //   title: "Strengthen Agriculture Communities:",
+              //   desc: "Introduce farmers and rural youth to AI-driven tools and modern agricultural practices, improving productivity and resilience.",
+              // },
               {
                 title: "Build Awareness:",
                 desc: "Run community awareness programs on education, skill development, and empowerment so that technology becomes an enabler, not a barrier.",
