@@ -13,7 +13,10 @@ import {
 } from "lucide-react";
 
 // ✅ Images
-import HeroImage from "../assets/images/swas1.jpeg";
+import Hero1 from "../assets/images/swas1.jpeg";
+import Hero2 from "../assets/images/ai1.png";
+import Hero3 from "../assets/images/ai2.png";
+
 import MissionImage from "../assets/images/vision1.jpeg";
 import vhome from "../assets/images/mission1.jpeg";
 import samvithLogo from "../assets/images/logo.png";
@@ -64,6 +67,16 @@ const glimpseData = [
 ];
 
 const Home = () => {
+  const heroImages = [Hero1, Hero2, Hero3];
+  const [currentHero, setCurrentHero] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHero((prev) => (prev + 1) % heroImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   const [showModal, setShowModal] = useState(false);
 
   /**
@@ -92,10 +105,19 @@ const Home = () => {
           Main page content (splash removed)
           -------------------------- */}
       {/* ✅ Hero Section */}
-      <div
-        className="relative bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${HeroImage})` }}
-      >
+      <div className="relative h-[90vh] overflow-hidden">
+        {/* Slider Images */}
+        {heroImages.map((img, index) => (
+          <motion.div
+            key={index}
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${img})` }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: currentHero === index ? 1 : 0 }}
+            transition={{ duration: 1.2 }}
+          />
+        ))}
+
         {/* elegant gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/10"></div>
 
@@ -146,7 +168,6 @@ const Home = () => {
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 justify-center gap-10 max-w-4xl mx-auto">
-
             {glimpseData.slice(0, 3).map((item, index) => (
               <motion.div
                 key={index}
@@ -334,7 +355,6 @@ const Home = () => {
 
           {/* 📊 Stats */}
           <div className="grid grid-cols-2 gap-6 h-[450px] auto-rows-fr">
-
             {[
               {
                 value: "50+",
@@ -437,8 +457,11 @@ const Home = () => {
                   type: "spring",
                   stiffness: 120,
                 }}
-                className={`relative flex flex-col justify-center items-center rounded-2xl shadow-xl text-center bg-white/80 backdrop-blur-md border border-gray-100 hover:shadow-2xl transform transition hover:-translate-y-1 hover:scale-105 p-6 ${item.label === "Students Supported" ? "col-span-2 mx-auto w-[60%]" : ""}`}
-
+                className={`relative flex flex-col justify-center items-center rounded-2xl shadow-xl text-center bg-white/80 backdrop-blur-md border border-gray-100 hover:shadow-2xl transform transition hover:-translate-y-1 hover:scale-105 p-6 ${
+                  item.label === "Students Supported"
+                    ? "col-span-2 mx-auto w-[60%]"
+                    : ""
+                }`}
               >
                 {/* Animated Background Symbol */}
                 {item.symbol}
