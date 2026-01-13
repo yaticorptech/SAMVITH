@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 // Import images
 import handshake1 from "../assets/images/Bhoomika.jpeg";
-import handshake2 from "../assets/images/Kripa(123).png";
+import handshake2 from "../assets/images/Kripa_123.png";
 import handshake3 from "../assets/images/yathifinaltrust.png"; // Yatheesha
 
 const trustees = [
