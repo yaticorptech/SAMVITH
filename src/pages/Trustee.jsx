@@ -13,11 +13,11 @@ const trustees = [
     role: "President",
     image: handshake3,
   },
-  {
-    name: "Kripa Prabhu K",
-    role: "Treasurer",
-    image: handshake2,
-  },
+  // {
+  //   name: "Kripa Prabhu K",
+  //   role: "Treasurer",
+  //   image: handshake2,
+  // },
   {
     name: "Bhoomika Poojary",
     role: "Secretary",
