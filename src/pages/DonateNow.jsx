@@ -7,9 +7,9 @@ import DonationBank from "../assets/images/donate1.png";
 import SamvithLogo from "../assets/images/logo.jpeg";
 
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxStJfg1LyPCFaXI0qfz_tai27CIkNPb_qowLAsE7s5Kt8qEiOGEgq-LOuLzT09-hbiJQ/exec";
+  "https://script.google.com/macros/s/AKfycbx3qF0-qBmeov_tO2qWvQ0IZL6zeW3oIiOWv-iQ-bsBDFioMUk0tB-owUtO_s4fRZMrpQ/exec";
 
-/* ================= VALIDATION HELPERS ================= */
+/* ================= VALIDATIONS ================= */
 const isValidEmail = (email) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -31,34 +31,39 @@ const DonateNow = () => {
     email: "",
     amount: initialAmount,
     transactionId: "",
+    receipt: null,
   });
 
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  /* ================= HANDLE CHANGE ================= */
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+
+    if (name === "receipt") {
+      setFormData({ ...formData, receipt: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
   /* ================= SUBMIT ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    /* ===== CLIENT-SIDE VALIDATION ===== */
+    // VALIDATIONS
     if (!formData.name.trim()) {
       return Swal.fire("Invalid Name", "Please enter your name.", "warning");
     }
 
     if (!isValidEmail(formData.email)) {
-      return Swal.fire(
-        "Invalid Email",
-        "Please enter a valid email address.",
-        "warning"
-      );
+      return Swal.fire("Invalid Email", "Enter a valid email.", "warning");
     }
 
     if (!isValidIndianPhone(formData.phone)) {
       return Swal.fire(
-        "Invalid Phone Number",
-        "Phone number must be in format +91XXXXXXXXXX.",
+        "Invalid Phone",
+        "Phone must be in +91XXXXXXXXXX format.",
         "warning"
       );
     }
@@ -66,7 +71,7 @@ const DonateNow = () => {
     if (!isValidAmount(formData.amount)) {
       return Swal.fire(
         "Invalid Amount",
-        "Please enter a valid donation amount (₹1 or more).",
+        "Donation amount must be ₹1 or more.",
         "warning"
       );
     }
@@ -74,55 +79,60 @@ const DonateNow = () => {
     if (!formData.transactionId.trim()) {
       return Swal.fire(
         "Missing Transaction ID",
-        "Please enter your transaction ID.",
+        "Please enter transaction ID.",
         "warning"
       );
     }
 
+    if (!formData.receipt) {
+      return Swal.fire(
+        "Receipt Required",
+        "Please upload payment screenshot/receipt.",
+        "warning"
+      );
+    }
+
+    const payload = new FormData();
+    Object.keys(formData).forEach((key) => {
+      payload.append(key, formData[key]);
+    });
+
     setLoading(true);
 
-    /* ===== SUBMIT TO GOOGLE SHEET ===== */
     try {
-      await fetch(GOOGLE_SCRIPT_URL, {
+      const res = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: payload,
       });
 
-      confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
+      const result = await res.json();
 
-      Swal.fire({
-        title: "Thank You!",
-        html: `
-          <p style="font-size:1.1rem;">
-            Your donation of ₹${formData.amount} was successful!
-          </p>
-          <p>Transaction ID: <b>${formData.transactionId}</b></p>
-          <p>You are making a real difference 💙</p>
-          <p>Redirecting to homepage...</p>
-        `,
-        icon: "success",
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didClose: () => navigate("/"),
-      });
+      if (result.status === "success") {
+        confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
 
-      setFormData({
-        name: "",
-        phone: "+91",
-        address: "",
-        email: "",
-        amount: "",
-        transactionId: "",
-      });
-    } catch (error) {
-      Swal.fire(
-        "Error",
-        "Something went wrong while saving your donation.",
-        "error"
-      );
+        Swal.fire({
+          title: "Thank You!",
+          text:
+            "Your donation has been submitted successfully. Our team will verify it shortly.",
+          icon: "success",
+          timer: 4000,
+          showConfirmButton: false,
+        }).then(() => navigate("/"));
+
+        setFormData({
+          name: "",
+          phone: "+91",
+          address: "",
+          email: "",
+          amount: "",
+          transactionId: "",
+          receipt: null,
+        });
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (err) {
+      Swal.fire("Error", "Upload failed. Please try again.", "error");
     } finally {
       setLoading(false);
     }
@@ -130,18 +140,6 @@ const DonateNow = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 py-16 px-4 sm:px-10">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-5xl font-extrabold text-blue-700 mb-4 drop-shadow-lg">
-          Donate Now
-        </h1>
-        <p className="text-gray-700 text-lg sm:text-xl max-w-2xl mx-auto">
-          Support our initiatives and empower communities.
-          <span className="text-blue-600 font-semibold"> Your impact matters!</span>
-        </p>
-      </div>
-
-      {/* Card */}
       <div className="max-w-xl mx-auto bg-white rounded-3xl shadow-2xl p-10">
         <motion.img
           src={SamvithLogo}
@@ -151,7 +149,7 @@ const DonateNow = () => {
           transition={{ duration: 4, repeat: Infinity }}
         />
 
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <input
             type="text"
             name="name"
@@ -200,14 +198,13 @@ const DonateNow = () => {
             value={formData.amount}
             onChange={handleChange}
             min="1"
-            step="1"
             required
             className="w-full border rounded-xl px-4 py-3"
           />
 
           <img
             src={DonationBank}
-            alt="Bank Details"
+            alt="Donation Bank Details"
             className="mx-auto w-64 rounded-xl shadow-md"
           />
 
@@ -221,6 +218,15 @@ const DonateNow = () => {
             className="w-full border rounded-xl px-4 py-3"
           />
 
+          <input
+            type="file"
+            name="receipt"
+            accept="image/*,.pdf"
+            required
+            onChange={handleChange}
+            className="w-full border rounded-xl px-4 py-3"
+          />
+
           <motion.button
             type="submit"
             disabled={loading}
@@ -230,7 +236,7 @@ const DonateNow = () => {
                 : "bg-gradient-to-r from-blue-500 to-purple-600"
             }`}
           >
-            {loading ? "Processing..." : "Donate"}
+            {loading ? "Submitting..." : "Donate"}
           </motion.button>
         </form>
       </div>
