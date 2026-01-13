@@ -179,74 +179,68 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ✅ Mission & Vision */}
-      <div className="bg-[#f8f5f0] py-16 sm:py-20 px-4 sm:px-6 lg:px-20">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+      {/* 🌍 ULTRA PREMIUM VISION & MISSION */}
+      <div className="relative py-28 bg-gradient-to-br from-yellow-50 via-pink-50 to-orange-50 overflow-hidden">
+        {/* Floating Glow Background */}
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-yellow-400/30 rounded-full blur-[140px]"></div>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-pink-400/30 rounded-full blur-[140px]"></div>
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-20 relative z-10">
+          {/* Vision Card */}
           <motion.div
-            className="grid grid-cols-1 gap-10"
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
+            initial={{ opacity: 0, x: -120 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
             viewport={{ once: true }}
+            className="grid md:grid-cols-2 gap-14 items-center mb-24"
           >
             <img
               src={vhome}
-              alt="Vision Mission Left"
-              className="w-full max-w-xs md:max-w-sm rounded-lg shadow-lg"
+              className="rounded-3xl shadow-2xl hover:scale-105 transition"
             />
-          </motion.div>
 
-          <motion.div
-            className="relative flex flex-col gap-10"
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            {/* Vision Card */}
-            <div className="bg-white rounded-3xl p-8 shadow-2xl border border-yellow-100">
-              <p className="text-xs font-semibold text-yellow-700 tracking-widest mb-2">
+            <div className="relative bg-white/80 backdrop-blur-xl p-12 rounded-[2.5rem] shadow-2xl border border-orange-200">
+              <span className="absolute -top-6 left-10 bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-2 rounded-full shadow-lg font-bold tracking-wide">
                 OUR VISION
-              </p>
-              <h2 className="text-2xl font-extrabold text-gray-900 mb-4">
+              </span>
+              <h3 className="text-3xl font-extrabold mb-4">
                 The Change We Imagine
-              </h2>
-              <p className="text-gray-600 leading-relaxed">
+              </h3>
+              <p className="text-lg text-gray-700 leading-relaxed">
                 To create a sustainable and inclusive society where every
-                individual has access to education, healthcare, and
-                opportunities for a better future.
+                individual has access to education, healthcare and opportunities
+                for a better future.
               </p>
             </div>
+          </motion.div>
 
-            {/* Mission Card */}
-            <div className="bg-white rounded-3xl p-8 shadow-2xl border border-yellow-100">
-              <p className="text-xs font-semibold text-yellow-700 tracking-widest mb-2">
+          {/* Mission Card */}
+          <motion.div
+            initial={{ opacity: 0, x: 120 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
+            className="grid md:grid-cols-2 gap-14 items-center"
+          >
+            <div className="relative bg-white/80 backdrop-blur-xl p-12 rounded-[2.5rem] shadow-2xl border border-pink-200 order-2 md:order-1">
+              <span className="absolute -top-6 left-10 bg-gradient-to-r from-pink-500 to-orange-500 text-white px-6 py-2 rounded-full shadow-lg font-bold tracking-wide">
                 OUR MISSION
-              </p>
-              <h2 className="text-2xl font-extrabold text-gray-900 mb-4">
+              </span>
+              <h3 className="text-3xl font-extrabold mb-4">
                 The Change We Drive
-              </h2>
-              <p className="text-gray-600 leading-relaxed">
+              </h3>
+              <p className="text-lg text-gray-700 leading-relaxed">
                 To ignite hope and opportunity by giving affordable access to
-                AI-powered learning, bridging education gaps, empowering women,
-                and introducing farmers to modern tools — so that technology and
+                Al-powered learning, bridging education gaps, empowering women,
+                and introducing farmers to modern tools - so that technology and
                 skills become a right, not a privilege, and entire communities
                 can rise together.
               </p>
             </div>
-          </motion.div>
 
-          <motion.div
-            className="flex justify-center md:justify-end"
-            initial={{ x: 100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 1 }}
-            viewport={{ once: true }}
-          >
             <img
               src={MissionImage}
-              alt="Vision Mission Right"
-              className="w-full max-w-xs md:max-w-sm rounded-lg shadow-lg"
+              className="rounded-3xl shadow-2xl hover:scale-105 transition order-1 md:order-2"
             />
           </motion.div>
         </div>
@@ -500,97 +494,73 @@ const Home = () => {
       </div>
 
       {/* ✅ Donation Slabs */}
-      <div className="bg-gradient-to-br from-yellow-50 via-pink-50 to-orange-50 py-20 px-6 lg:px-20 text-center relative overflow-hidden">
-        {/* Heading */}
-        <h2 className="text-3xl sm:text-4xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-pink-600">
-          Donate AI Education for Students 🚀
-        </h2>
-        <p className="text-gray-700 max-w-2xl mx-auto mb-12">
-          Every contribution empowers students with future-ready AI skills. Your
-          support fuels learning, innovation, and brighter opportunities. 🌟
-        </p>
+      <div className="relative py-28 px-6 lg:px-20 bg-gradient-to-br from-yellow-50 via-pink-50 to-orange-50 overflow-hidden">
+        <div className="absolute -top-20 -left-20 w-[300px] h-[300px] bg-orange-400/30 rounded-full blur-[140px]" />
+        <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-pink-400/30 rounded-full blur-[160px]" />
 
-        {/* Donation Slabs */}
-        <div className="flex justify-center gap-6 flex-wrap">
-          {/* ₹500 Slab */}
-          <Link
-            to="/donate-now"
-            state={{ amount: 1000 }}
-            className="relative group"
-          >
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-2xl px-8 py-6 transition transform hover:-translate-y-2 hover:scale-105 border border-orange-200">
-              <span className="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                Basic
-              </span>
-              <h3 className="text-2xl font-extrabold text-orange-600 mb-2">
-                ₹1000
-              </h3>
-              <p className="text-sm text-gray-600 group-hover:text-gray-800">
-                Support one student’s AI learning journey
-              </p>
-            </div>
-          </Link>
-
-          {/* ₹1000 Slab */}
-          <Link
-            to="/donate-now"
-            state={{ amount: 10000 }}
-            className="relative group"
-          >
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-2xl px-8 py-6 transition transform hover:-translate-y-2 hover:scale-105 border border-orange-200">
-              <span className="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                Popular
-              </span>
-              <h3 className="text-2xl font-extrabold text-orange-600 mb-2">
-                ₹10000
-              </h3>
-              <p className="text-sm text-gray-600 group-hover:text-gray-800">
-                Empower a small group of students
-              </p>
-            </div>
-          </Link>
-
-          {/* ₹2500 Slab */}
-          <Link
-            to="/donate-now"
-            state={{ amount: 50000 }}
-            className="relative group"
-          >
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-2xl px-8 py-6 transition transform hover:-translate-y-2 hover:scale-105 border border-orange-200">
-              <span className="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                Premium
-              </span>
-              <h3 className="text-2xl font-extrabold text-orange-600 mb-2">
-                ₹50000
-              </h3>
-              <p className="text-sm text-gray-600 group-hover:text-gray-800">
-                Fund an entire classroom with AI education
-              </p>
-            </div>
-          </Link>
-
-          {/* ₹5000 Slab */}
-          <Link
-            to="/donate-now"
-            state={{ amount: 100000 }}
-            className="relative group"
-          >
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-2xl px-8 py-6 transition transform hover:-translate-y-2 hover:scale-105 border border-orange-200">
-              <span className="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                Premium
-              </span>
-              <h3 className="text-2xl font-extrabold text-orange-600 mb-2">
-                ₹100000
-              </h3>
-              <p className="text-sm text-gray-600 group-hover:text-gray-800">
-                Transform a batch of students into innovators
-              </p>
-            </div>
-          </Link>
+        <div className="relative text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
+            Donate AI Education for Students 🚀
+          </h2>
+          <p className="mt-4 max-w-2xl mx-auto text-gray-700 text-lg">
+            Every contribution empowers students with future-ready AI skills.
+            Your support fuels learning, innovation, and brighter opportunities.
+            🌟
+          </p>
         </div>
 
-        {/* Motivational Footer */}
-        <p className="mt-12 text-lg font-semibold text-pink-600">
+        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">
+          {[
+            {
+              amount: "₹1000",
+              tag: "Basic",
+              text: "Support one student’s AI learning journey",
+              value: 1000,
+              glow: "from-orange-400 to-pink-400",
+            },
+            {
+              amount: "₹10000",
+              tag: "Popular",
+              text: "Empower a small group of students",
+              value: 10000,
+              glow: "from-pink-500 to-red-500",
+            },
+            {
+              amount: "₹50000",
+              tag: "Premium",
+              text: "Fund an entire classroom with AI education",
+              value: 50000,
+              glow: "from-yellow-500 to-orange-500",
+            },
+            {
+              amount: "₹100000",
+              tag: "Elite",
+              text: "Transform a batch of students into innovators",
+              value: 100000,
+              glow: "from-purple-500 to-pink-500",
+            },
+          ].map((card, i) => (
+            <Link to="/donate-now" state={{ amount: card.value }} key={i}>
+              <div className="group cursor-pointer relative h-full bg-white/90 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-white/40 hover:shadow-2xl transition transform hover:-translate-y-3 hover:scale-105 overflow-hidden">
+                <div
+                  className={`absolute inset-0 bg-gradient-to-tr ${card.glow} opacity-10 blur-2xl`}
+                />
+
+                <span className="absolute top-4 right-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs px-3 py-1 rounded-full shadow-md">
+                  {card.tag}
+                </span>
+
+                <h3 className="text-4xl font-extrabold text-orange-600 mb-3 text-center">
+                  {card.amount}
+                </h3>
+
+                <p className="text-gray-700 text-center">{card.text}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <p className="relative mt-16 text-center text-lg font-semibold text-pink-600">
           🌱 Small steps create big change. Start your impact today!
         </p>
       </div>
