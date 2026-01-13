@@ -1,4 +1,3 @@
-// src/pages/Donate.jsx
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -7,7 +6,18 @@ import { motion } from "framer-motion";
 import DonationBank from "../assets/images/donate1.png";
 import SamvithLogo from "../assets/images/logo.jpeg";
 
-const GOOGLE_SCRIPT_URL ="https://script.google.com/macros/s/AKfycbxStJfg1LyPCFaXI0qfz_tai27CIkNPb_qowLAsE7s5Kt8qEiOGEgq-LOuLzT09-hbiJQ/exec";
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbxStJfg1LyPCFaXI0qfz_tai27CIkNPb_qowLAsE7s5Kt8qEiOGEgq-LOuLzT09-hbiJQ/exec";
+
+/* ================= VALIDATION HELPERS ================= */
+const isValidEmail = (email) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+const isValidIndianPhone = (phone) =>
+  /^\+91\d{10}$/.test(phone);
+
+const isValidAmount = (amount) =>
+  !isNaN(amount) && Number(amount) >= 1;
 
 const DonateNow = () => {
   const navigate = useNavigate();
@@ -25,156 +35,199 @@ const DonateNow = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
+  /* ================= SUBMIT ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    /* ===== CLIENT-SIDE VALIDATION ===== */
+    if (!formData.name.trim()) {
+      return Swal.fire("Invalid Name", "Please enter your name.", "warning");
+    }
+
+    if (!isValidEmail(formData.email)) {
+      return Swal.fire(
+        "Invalid Email",
+        "Please enter a valid email address.",
+        "warning"
+      );
+    }
+
+    if (!isValidIndianPhone(formData.phone)) {
+      return Swal.fire(
+        "Invalid Phone Number",
+        "Phone number must be in format +91XXXXXXXXXX.",
+        "warning"
+      );
+    }
+
+    if (!isValidAmount(formData.amount)) {
+      return Swal.fire(
+        "Invalid Amount",
+        "Please enter a valid donation amount (₹1 or more).",
+        "warning"
+      );
+    }
+
+    if (!formData.transactionId.trim()) {
+      return Swal.fire(
+        "Missing Transaction ID",
+        "Please enter your transaction ID.",
+        "warning"
+      );
+    }
+
     setLoading(true);
 
-    setTimeout(async () => {
-      try {
-        await fetch(GOOGLE_SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+    /* ===== SUBMIT TO GOOGLE SHEET ===== */
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-        // Confetti animation
-        confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
+      confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
 
-        // SweetAlert2 popup
-        Swal.fire({
-          title: "Thank You!",
-          html: `
-            <p style="font-size:1.1rem;">Your donation of ₹${formData.amount} was successful!</p>
-            <p>Transaction ID: <b>${formData.transactionId}</b></p>
-            <p>You are making a real difference!</p>
-            <p>Redirecting to homepage...</p>
-          `,
-          icon: "success",
-          showConfirmButton: false,
-          timer: 4000,
-          timerProgressBar: true,
-          didClose: () => navigate("/"),
-        });
+      Swal.fire({
+        title: "Thank You!",
+        html: `
+          <p style="font-size:1.1rem;">
+            Your donation of ₹${formData.amount} was successful!
+          </p>
+          <p>Transaction ID: <b>${formData.transactionId}</b></p>
+          <p>You are making a real difference 💙</p>
+          <p>Redirecting to homepage...</p>
+        `,
+        icon: "success",
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didClose: () => navigate("/"),
+      });
 
-        // Reset form
-        setFormData({
-          name: "",
-          phone: "+91",
-          address: "",
-          email: "",
-          amount: "",
-          transactionId: "",
-        });
-      } catch (error) {
-        console.error("Error:", error);
-        Swal.fire(
-          "Oops!",
-          "Something went wrong while saving your donation.",
-          "error"
-        );
-      } finally {
-        setLoading(false);
-      }
-    }, 2000);
+      setFormData({
+        name: "",
+        phone: "+91",
+        address: "",
+        email: "",
+        amount: "",
+        transactionId: "",
+      });
+    } catch (error) {
+      Swal.fire(
+        "Error",
+        "Something went wrong while saving your donation.",
+        "error"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 py-16 px-4 sm:px-10">
-      {/* Hero Section */}
+      {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-5xl font-extrabold text-blue-700 mb-4 drop-shadow-lg">
           Donate Now
         </h1>
         <p className="text-gray-700 text-lg sm:text-xl max-w-2xl mx-auto">
-          Support our initiatives and empower communities. Your contribution
-          makes a
-          <span className="text-blue-600 font-semibold"> huge impact!</span>
+          Support our initiatives and empower communities.
+          <span className="text-blue-600 font-semibold"> Your impact matters!</span>
         </p>
       </div>
 
-      {/* Form Card */}
-      <div className="max-w-xl mx-auto bg-white rounded-3xl shadow-2xl p-10 relative overflow-hidden">
-        {/* Logo */}
-        <div className="relative text-center">
-          <motion.img
-            src={SamvithLogo}
-            alt="Samvith Logo"
-            className="w-32 h-32 object-contain mx-auto rounded-full"
-            animate={{
-              y: [0, -15, 0],
-              scale: [1, 1.05, 1],
-              rotate: [0, 5, -5, 0],
-            }}
-            transition={{ duration: 4, repeat: Infinity, repeatType: "mirror" }}
+      {/* Card */}
+      <div className="max-w-xl mx-auto bg-white rounded-3xl shadow-2xl p-10">
+        <motion.img
+          src={SamvithLogo}
+          alt="Samvith Logo"
+          className="w-32 h-32 mx-auto rounded-full mb-6"
+          animate={{ y: [0, -15, 0] }}
+          transition={{ duration: 4, repeat: Infinity }}
+        />
+
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full border rounded-xl px-4 py-3"
           />
-        </div>
 
-        <form className="relative space-y-6 mt-8" onSubmit={handleSubmit}>
-          {[
-            { label: "Name", type: "text", name: "name" },
-            {
-              label: "Phone (+91)",
-              type: "tel",
-              name: "phone",
-              pattern: "\\+91\\d{10}",
-            },
-            { label: "Address", type: "text", name: "address" },
-            { label: "Email", type: "email", name: "email" },
-            { label: "Amount (₹)", type: "number", name: "amount", min: 1 },
-          ].map((field, idx) => (
-            <div key={idx}>
-              <label className="block text-gray-700 mb-2 font-medium">
-                {field.label}
-              </label>
-              <input
-                type={field.type}
-                name={field.name}
-                value={formData[field.name]}
-                onChange={handleChange}
-                required
-                pattern={field.pattern}
-                min={field.min}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3"
-              />
-            </div>
-          ))}
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            pattern="\+91\d{10}"
+            placeholder="+911234567890"
+            className="w-full border rounded-xl px-4 py-3"
+          />
 
-          {/* Bank Details */}
-          <div className="text-center mt-4">
-            <img
-              src={DonationBank}
-              alt="Donation Bank Details"
-              className="mx-auto w-64 h-auto rounded-xl shadow-lg"
-            />
-          </div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full border rounded-xl px-4 py-3"
+          />
 
-          {/* Transaction ID */}
-          <div>
-            <label className="block text-gray-700 mb-2 font-medium">
-              Transaction ID
-            </label>
-            <input
-              type="text"
-              name="transactionId"
-              value={formData.transactionId}
-              onChange={handleChange}
-              required
-              placeholder="Enter your transaction ID"
-              className="w-full border border-gray-300 rounded-xl px-4 py-3"
-            />
-          </div>
+          <input
+            type="text"
+            name="address"
+            placeholder="Address"
+            value={formData.address}
+            onChange={handleChange}
+            required
+            className="w-full border rounded-xl px-4 py-3"
+          />
 
-          {/* Donate Button */}
+          <input
+            type="number"
+            name="amount"
+            placeholder="Amount (₹)"
+            value={formData.amount}
+            onChange={handleChange}
+            min="1"
+            step="1"
+            required
+            className="w-full border rounded-xl px-4 py-3"
+          />
+
+          <img
+            src={DonationBank}
+            alt="Bank Details"
+            className="mx-auto w-64 rounded-xl shadow-md"
+          />
+
+          <input
+            type="text"
+            name="transactionId"
+            placeholder="Transaction ID"
+            value={formData.transactionId}
+            onChange={handleChange}
+            required
+            className="w-full border rounded-xl px-4 py-3"
+          />
+
           <motion.button
             type="submit"
             disabled={loading}
-            className={`w-full py-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-bold text-lg rounded-2xl shadow-lg ${
-              loading ? "opacity-70 cursor-not-allowed" : ""
+            className={`w-full py-4 rounded-xl text-white font-bold ${
+              loading
+                ? "bg-gray-400"
+                : "bg-gradient-to-r from-blue-500 to-purple-600"
             }`}
           >
             {loading ? "Processing..." : "Donate"}
