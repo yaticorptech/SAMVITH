@@ -1,243 +1,218 @@
 // src/pages/Volunteer.jsx
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Users, Heart, GraduationCap, Handshake } from "lucide-react";
+import React, { useState } from "react";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 import confetti from "canvas-confetti";
-import volunteerBg from "../assets/images/Volunteer.png";
+import { motion } from "framer-motion";
+import { FaUser, FaEnvelope, FaPhone, FaHandsHelping } from "react-icons/fa";
 
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzMYHOoMXDTKw8Hj-JjapohqfK7-hRXa1140TeYIlLY8Yp6S9kAf7UUKzpP4c-jl9_Gig/exec";
-const SHEET_DATA_URL =
-  "https://script.google.com/macros/s/AKfycbzMYHOoMXDTKw8Hj-JjapohqfK7-hRXa1140TeYIlLY8Yp6S9kAf7UUKzpP4c-jl9_Gig/exec?action=read";
+  "https://script.google.com/macros/s/AKfycbyhRiBJskqD9n98LlAhSI9SLGwdpiKU2x-WSoZ2AdfpRF9ul1xHwYH4lOkzOvWLnAigMw/exec";
+
+/* ================= VALIDATORS ================= */
+const validators = {
+  name: (v) => (!v ? "Name is required" : ""),
+  email: (v) =>
+    !v
+      ? "Email is required"
+      : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
+      ? "Enter a valid email"
+      : "",
+  phone: (v) =>
+    !v
+      ? "Phone number is required"
+      : !/^[0-9+\-\s]{8,15}$/.test(v)
+      ? "Enter a valid phone number"
+      : "",
+  skills: (v) =>
+    !v ? "Please tell us how you can help" : "",
+};
 
 const Volunteer = () => {
-  const [formData, setFormData] = useState({
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
     skills: "",
   });
+
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [existingData, setExistingData] = useState([]);
 
-  useEffect(() => {
-    const fetchExistingData = async () => {
-      try {
-        const res = await fetch(SHEET_DATA_URL);
-        const data = await res.json();
-        if (Array.isArray(data)) setExistingData(data);
-      } catch (error) {
-        console.error("Error fetching existing volunteers:", error);
-      }
-    };
-    fetchExistingData();
-  }, []);
+  /* ================= HANDLE CHANGE (LIVE VALIDATION) ================= */
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setForm((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: validators[name](value) }));
+  };
 
+  const isFormValid =
+    Object.values(form).every((v) => v.trim() !== "") &&
+    Object.values(errors).every((e) => !e);
+
+  /* ================= SUBMIT ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isFormValid) return;
+
     setLoading(true);
 
     try {
-      const duplicate = existingData.find(
-        (entry) =>
-          entry.phone?.replace(/\D/g, "") === formData.phone.replace(/\D/g, "")
-      );
+      const fd = new FormData();
+      Object.entries(form).forEach(([k, v]) => fd.append(k, v));
 
-      if (duplicate) {
-        Swal.fire({
-          icon: "warning",
-          title: "Duplicate Entry",
-          text: "This phone number is already registered as a volunteer.",
-          confirmButtonColor: "#f59e0b",
-        });
-        setLoading(false);
-        return;
-      }
-
-      const form = new URLSearchParams(formData);
       const res = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
-        body: form,
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: fd,
       });
 
-      const text = await res.text();
-      const result = JSON.parse(text);
+      const result = JSON.parse(await res.text());
 
       if (result.status === "success") {
-        confetti({ particleCount: 180, spread: 70, origin: { y: 0.6 } });
+        confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 } });
+
         Swal.fire({
           title: "🎉 Thank You!",
-          text: "Your volunteer application has been submitted successfully!",
+          html: `
+            <div style="font-size:1.2rem; line-height:1.6; color:#374151;">
+              <p>Your volunteer application has been <b>successfully submitted</b>!</p>
+              <p>🤝 We truly appreciate your support.</p>
+              <p style="font-weight:600; color:#4f46e5;">
+                Redirecting to homepage...
+              </p>
+            </div>
+          `,
           icon: "success",
-          confirmButtonColor: "#4f46e5",
-        });
-        setFormData({ name: "", email: "", phone: "", skills: "" });
-        setExistingData([...existingData, formData]);
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        }).then(() => navigate("/"));
+
+        setForm({ name: "", email: "", phone: "", skills: "" });
+        setErrors({});
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops!",
-          text: result.message || "Something went wrong.",
-        });
+        throw new Error();
       }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Error!",
-        text: "Failed to submit application. Please try again.",
-      });
+    } catch {
+      Swal.fire("Error", "Failed to submit application", "error");
     } finally {
       setLoading(false);
     }
   };
 
+  /* ================= UI ================= */
   return (
-    <div className="bg-gray-50 min-h-screen">
-      {/* ✅ Hero Section */}
-      <section
-        className="relative text-white h-[85vh] w-full flex flex-col justify-center items-center px-6 text-center bg-cover bg-center"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(${volunteerBg})`,
-        }}
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-pink-50 py-16 px-4 sm:px-10">
+      {/* Header */}
+      <motion.div
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="text-center mb-12"
       >
-        <motion.h1
-          className="text-4xl sm:text-6xl font-extrabold mb-4"
-          initial={{ opacity: 0, y: -40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          Join Us as a Volunteer
-        </motion.h1>
-        <motion.p
-          className="text-lg sm:text-xl max-w-2xl mx-auto text-gray-100"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-        >
-          Make a real difference — share your skills, your time, and your heart
-          to build a better world. 🌍
-        </motion.p>
-      </section>
+        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+          Volunteer With Us
+        </h1>
+        <p className="text-gray-700 text-lg mt-4">
+          Your time & skills can change lives 💙
+        </p>
+      </motion.div>
 
-      {/* ✅ Why Volunteer Section */}
-      <section className="py-16 px-6 sm:px-12 lg:px-20 text-center bg-gradient-to-b from-indigo-50 to-purple-100">
-        <motion.h2
-          className="text-3xl sm:text-5xl font-bold text-indigo-700 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          Why Volunteer?
-        </motion.h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {[
-            {
-              icon: <Users className="w-14 h-14 text-green-600 mx-auto" />,
-              title: "Empower Communities",
-              desc: "Help uplift underprivileged groups through kindness.",
-            },
-            {
-              icon: <Handshake className="w-14 h-14 text-indigo-600 mx-auto" />,
-              title: "Build Connections",
-              desc: "Collaborate and grow with passionate people.",
-            },
-            {
-              icon: <GraduationCap className="w-14 h-14 text-pink-600 mx-auto" />,
-              title: "Learn & Grow",
-              desc: "Develop leadership, teamwork, and empathy.",
-            },
-            {
-              icon: <Heart className="w-14 h-14 text-red-600 mx-auto" />,
-              title: "Spread Love",
-              desc: "Small acts can create a lifetime of change.",
-            },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              className="bg-white shadow-xl rounded-2xl p-6 hover:shadow-2xl transform hover:-translate-y-3 transition-all duration-300"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-            >
-              {item.icon}
-              <h3 className="mt-4 text-xl font-semibold text-gray-800">
-                {item.title}
-              </h3>
-              <p className="text-gray-600 text-sm mt-3">{item.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ✅ Volunteer Form Section */}
-      <section className="py-20 px-6 sm:px-12 lg:px-32 bg-gradient-to-r from-indigo-50 to-purple-50">
-        <motion.h2
-          className="text-3xl sm:text-5xl font-bold text-center text-indigo-700 mb-10"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          Become a Volunteer 💫
-        </motion.h2>
-        <motion.form
-          onSubmit={handleSubmit}
-          className="max-w-3xl mx-auto bg-white/80 backdrop-blur-lg p-10 rounded-3xl shadow-2xl space-y-6 border border-indigo-100"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          {[
-            { label: "Full Name", type: "text", name: "name", placeholder: "Enter your full name" },
-            { label: "Email", type: "email", name: "email", placeholder: "Enter your email" },
-            { label: "Phone Number", type: "text", name: "phone", placeholder: "Enter your phone number" },
-          ].map((input, i) => (
-            <motion.div key={i} whileHover={{ scale: 1.02 }}>
-              <label className="block text-gray-700 font-semibold mb-2">{input.label}</label>
+      {/* Form Card */}
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="max-w-xl mx-auto bg-white rounded-3xl shadow-2xl p-10 relative"
+      >
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name */}
+          <div>
+            <div className="relative">
+              <FaUser className="absolute top-3 left-3 text-gray-400" />
               <input
-                type={input.type}
-                name={input.name}
-                value={formData[input.name]}
+                name="name"
+                value={form.name}
                 onChange={handleChange}
-                placeholder={input.placeholder}
-                required
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-400 outline-none transition-all"
+                placeholder="Full Name"
+                className="pl-10 w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400"
               />
-            </motion.div>
-          ))}
+            </div>
+            {errors.name && (
+              <p className="text-sm text-red-500 mt-1">{errors.name}</p>
+            )}
+          </div>
 
-          <motion.div whileHover={{ scale: 1.02 }}>
-            <label className="block text-gray-700 font-semibold mb-2">Skills / Interests</label>
-            <textarea
-              name="skills"
-              value={formData.skills}
-              onChange={handleChange}
-              placeholder="Tell us how you'd like to contribute"
-              rows="4"
-              required
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-400 outline-none transition-all"
-            ></textarea>
-          </motion.div>
+          {/* Email */}
+          <div>
+            <div className="relative">
+              <FaEnvelope className="absolute top-3 left-3 text-gray-400" />
+              <input
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="Email Address"
+                className="pl-10 w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400"
+              />
+            </div>
+            {errors.email && (
+              <p className="text-sm text-red-500 mt-1">{errors.email}</p>
+            )}
+          </div>
 
-          <motion.button
+          {/* Phone */}
+          <div>
+            <div className="relative">
+              <FaPhone className="absolute top-3 left-3 text-gray-400" />
+              <input
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                placeholder="Phone Number"
+                className="pl-10 w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400"
+              />
+            </div>
+            {errors.phone && (
+              <p className="text-sm text-red-500 mt-1">{errors.phone}</p>
+            )}
+          </div>
+
+          {/* Skills */}
+          <div>
+            <div className="relative">
+              <FaHandsHelping className="absolute top-3 left-3 text-gray-400" />
+              <textarea
+                name="skills"
+                rows="4"
+                value={form.skills}
+                onChange={handleChange}
+                placeholder="How would you like to help?"
+                className="pl-10 w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400"
+              />
+            </div>
+            {errors.skills && (
+              <p className="text-sm text-red-500 mt-1">{errors.skills}</p>
+            )}
+          </div>
+
+          {/* Submit */}
+          <button
             type="submit"
-            disabled={loading}
-            whileHover={{ scale: loading ? 1 : 1.05 }}
-            whileTap={{ scale: 0.97 }}
-            className={`w-full text-white py-3 rounded-lg font-semibold transition-all shadow-md ${
-              loading
+            disabled={!isFormValid || loading}
+            className={`w-full py-3 rounded-xl font-semibold text-white ${
+              !isFormValid || loading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+                : "bg-gradient-to-r from-indigo-600 to-pink-600 hover:opacity-90"
             }`}
           >
             {loading ? "Submitting..." : "Submit Application"}
-          </motion.button>
-        </motion.form>
-      </section>
+          </button>
+        </form>
+      </motion.div>
     </div>
   );
 };

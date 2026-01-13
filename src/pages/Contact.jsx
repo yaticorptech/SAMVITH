@@ -12,7 +12,7 @@ import {
   FaCommentDots,
 } from "react-icons/fa";
 
-const GOOGLE_SCRIPT_URL ="https://script.google.com/macros/s/AKfycbzMYHOoMXDTKw8Hj-JjapohqfK7-hRXa1140TeYIlLY8Yp6S9kAf7UUKzpP4c-jl9_Gig/exec"; // ⬅️ Replace with your Google Apps Script Web App URL
+const GOOGLE_SCRIPT_URL ="https://script.google.com/macros/s/AKfycbyhRiBJskqD9n98LlAhSI9SLGwdpiKU2x-WSoZ2AdfpRF9ul1xHwYH4lOkzOvWLnAigMw/exec";
 
 const Contact = () => {
   const navigate = useNavigate();
