@@ -44,7 +44,7 @@ function App() {
             {/* <Route path="/women-empowerment" element={<WomenEmpowerment />} /> */}
             {/* <Route path="/agriculture" element={<Agriculture />} /> */}
             <Route path="/Scholarship" element={<Scholarship />} />
-            <Route path="/free-ai-card" element={<FreeAICard />} />
+            <Route path="/FreeAICard" element={<FreeAICard />} />
             {/* <Route path="/trustee" element={<Trustee />} /> */}
             <Route path="/news-blogs" element={<NewsBlogs />} />
             <Route path="/contact" element={<Contact />} />
