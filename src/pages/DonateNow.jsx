@@ -7,7 +7,7 @@ import DonationBank from "../assets/images/donate1.png";
 import SamvithLogo from "../assets/images/logo.jpeg";
 
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbx3qF0-qBmeov_tO2qWvQ0IZL6zeW3oIiOWv-iQ-bsBDFioMUk0tB-owUtO_s4fRZMrpQ/exec";
+  "https://script.google.com/macros/s/AKfycbxStJfg1LyPCFaXI0qfz_tai27CIkNPb_qowLAsE7s5Kt8qEiOGEgq-LOuLzT09-hbiJQ/exec";
 
 /* ================= VALIDATIONS ================= */
 const isValidEmail = (email) =>
