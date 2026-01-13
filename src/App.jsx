@@ -13,7 +13,7 @@ import Education from "./pages/Education"; // ✅ NEW Education page
 import SocialMediaBar from "./components/Socialmediabar"; 
 // import Agriculture from "./pages/Agriculture";
 import Scholarship from "./pages/Scholarship";
-import FreeAICard from "./pages/FreeAICard";
+// import FreeAICard from "./pages/FreeAICard";
 import DonateNow from "./pages/DonateNow"; // ✅ Import DonateNow page
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -44,7 +44,7 @@ function App() {
             {/* <Route path="/women-empowerment" element={<WomenEmpowerment />} /> */}
             {/* <Route path="/agriculture" element={<Agriculture />} /> */}
             <Route path="/Scholarship" element={<Scholarship />} />
-            <Route path="/FreeAICard" element={<FreeAICard />} />
+            {/* <Route path="/FreeAICard" element={<FreeAICard />} /> */}
             {/* <Route path="/trustee" element={<Trustee />} /> */}
             <Route path="/news-blogs" element={<NewsBlogs />} />
             <Route path="/contact" element={<Contact />} />

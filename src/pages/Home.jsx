@@ -54,13 +54,13 @@ const glimpseData = [
     link: "/scholarship",
     icon: <GraduationCap className="text-yellow-500 w-8 h-8 sm:w-10 sm:h-10" />,
   },
-  {
-    title: "Free AI Card",
-    description:
-      "Ensuring access to healthcare and services through AI-powered identity cards.",
-    link: "/free-ai-card",
-    icon: <IdCard className="text-purple-500 w-8 h-8 sm:w-10 sm:h-10" />,
-  },
+  // {
+  //   title: "Free AI Card",
+  //   description:
+  //     "Ensuring access to healthcare and services through AI-powered identity cards.",
+  //   link: "/free-ai-card",
+  //   icon: <IdCard className="text-purple-500 w-8 h-8 sm:w-10 sm:h-10" />,
+  // },
 ];
 
 const Home = () => {
@@ -145,7 +145,8 @@ const Home = () => {
             Our expertise across multiple practice areas
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 justify-center gap-10 max-w-4xl mx-auto">
+
             {glimpseData.slice(0, 3).map((item, index) => (
               <motion.div
                 key={index}
@@ -332,7 +333,8 @@ const Home = () => {
           </div>
 
           {/* 📊 Stats */}
-          <div className="grid grid-cols-2 gap-6 h-[450px]">
+          <div className="grid grid-cols-2 gap-6 h-[450px] auto-rows-fr">
+
             {[
               {
                 value: "50+",
@@ -380,28 +382,28 @@ const Home = () => {
                   </motion.svg>
                 ),
               },
-              {
-                value: "200+",
-                label: "Women Empowered",
-                icon: Users,
-                color: "from-green-500 to-emerald-500",
-                bg: "bg-gradient-to-r from-green-500 to-emerald-500",
-                symbol: (
-                  <motion.svg
-                    className="absolute w-32 h-32 opacity-10"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    animate={{ rotate: [0, 5, 0, -5, 0] }}
-                    transition={{
-                      repeat: Infinity,
-                      duration: 6,
-                      ease: "easeInOut",
-                    }}
-                  >
-                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.03 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-                  </motion.svg>
-                ),
-              },
+              // {
+              //   value: "200+",
+              //   label: "Women Empowered",
+              //   icon: Users,
+              //   color: "from-green-500 to-emerald-500",
+              //   bg: "bg-gradient-to-r from-green-500 to-emerald-500",
+              //   symbol: (
+              //     <motion.svg
+              //       className="absolute w-32 h-32 opacity-10"
+              //       fill="currentColor"
+              //       viewBox="0 0 24 24"
+              //       animate={{ rotate: [0, 5, 0, -5, 0] }}
+              //       transition={{
+              //         repeat: Infinity,
+              //         duration: 6,
+              //         ease: "easeInOut",
+              //       }}
+              //     >
+              //       <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.03 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+              //     </motion.svg>
+              //   ),
+              // },
               {
                 value: "500+",
                 label: "Students Supported",
@@ -435,7 +437,8 @@ const Home = () => {
                   type: "spring",
                   stiffness: 120,
                 }}
-                className="relative flex flex-col justify-center items-center rounded-2xl shadow-xl text-center bg-white/80 backdrop-blur-md border border-gray-100 hover:shadow-2xl transform transition hover:-translate-y-1 hover:scale-105 p-6"
+                className={`relative flex flex-col justify-center items-center rounded-2xl shadow-xl text-center bg-white/80 backdrop-blur-md border border-gray-100 hover:shadow-2xl transform transition hover:-translate-y-1 hover:scale-105 p-6 ${item.label === "Students Supported" ? "col-span-2 mx-auto w-[60%]" : ""}`}
+
               >
                 {/* Animated Background Symbol */}
                 {item.symbol}
@@ -500,7 +503,7 @@ const Home = () => {
 
         <div className="relative text-center mb-16">
           <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
-            Donate AI Education for Students 🚀
+            Donate Education for Students 🚀
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-gray-700 text-lg">
             Every contribution empowers students with future-ready AI skills.
@@ -509,35 +512,37 @@ const Home = () => {
           </p>
         </div>
 
-        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">
+        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 max-w-7xl mx-auto">
           {[
             {
-              amount: "₹1000",
-              tag: "Basic",
-              text: "Support one student’s AI learning journey",
+              amount: "₹1,000",
+              text: "Support one student’s learning journey",
               value: 1000,
               glow: "from-orange-400 to-pink-400",
             },
             {
-              amount: "₹10000",
-              tag: "Popular",
+              amount: "₹5,000",
+              text: "Help multiple students access resources",
+              value: 5000,
+              glow: "from-yellow-400 to-orange-400",
+            },
+            {
+              amount: "₹10,000",
               text: "Empower a small group of students",
               value: 10000,
               glow: "from-pink-500 to-red-500",
             },
             {
-              amount: "₹50000",
-              tag: "Premium",
-              text: "Fund an entire classroom with AI education",
-              value: 50000,
-              glow: "from-yellow-500 to-orange-500",
+              amount: "₹25,000",
+              text: "Fund learning for an entire classroom",
+              value: 25000,
+              glow: "from-indigo-500 to-purple-500",
             },
             {
-              amount: "₹100000",
-              tag: "Elite",
+              amount: "₹50,000",
               text: "Transform a batch of students into innovators",
-              value: 100000,
-              glow: "from-purple-500 to-pink-500",
+              value: 50000,
+              glow: "from-emerald-500 to-teal-500",
             },
           ].map((card, i) => (
             <Link to="/donate-now" state={{ amount: card.value }} key={i}>
@@ -545,10 +550,6 @@ const Home = () => {
                 <div
                   className={`absolute inset-0 bg-gradient-to-tr ${card.glow} opacity-10 blur-2xl`}
                 />
-
-                <span className="absolute top-4 right-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs px-3 py-1 rounded-full shadow-md">
-                  {card.tag}
-                </span>
 
                 <h3 className="text-4xl font-extrabold text-orange-600 mb-3 text-center">
                   {card.amount}

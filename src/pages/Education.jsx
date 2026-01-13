@@ -7,6 +7,20 @@ import sampleImage1 from "../assets/images/education4.png";
 import sampleImage2 from "../assets/images/educarion 5.png";
 import sampleImage3 from "../assets/images/edu 6.png";
 
+// Free AI Card Content
+const freeRegistration = [
+  "Students – to improve career readiness and digital literacy",
+];
+
+const freeLearningTopics = [
+  "Soft Skills & Personality Development",
+  "Digital Literacy & Online Tools",
+  "Career & Business Guidance",
+  "Agriculture & Market Awareness",
+  "Resume Building & Job Preparation",
+  "Student Mentoring & Future Planning",
+];
+
 const programs = [
   {
     id: 1,
@@ -128,6 +142,57 @@ const Education = () => {
           ))}
         </motion.div>
       </div>
+{/* FREE AI EDUCATION PROGRAM */}
+<section className="max-w-7xl mx-auto my-28">
+
+  {/* Title */}
+  <motion.div
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.7 }}
+    className="text-center mb-16"
+  >
+    <h2 className="text-4xl sm:text-5xl font-extrabold text-indigo-700 mb-4">
+      Free Education Program
+    </h2>
+    <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+      Empowering 10,000+ students across Karnataka with future-ready digital and AI skills.
+    </p>
+  </motion.div>
+
+  {/* WHAT YOU WILL LEARN */}
+  <motion.div
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.7 }}
+  >
+    <h3 className="text-3xl font-bold text-gray-800 mb-10 text-center">
+      What Will You Learn?
+    </h3>
+
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {freeLearningTopics.map((topic, idx) => (
+        <motion.div
+          key={idx}
+          whileHover={{ scale: 1.05 }}
+          className="relative bg-gradient-to-br from-indigo-50 via-white to-pink-50 rounded-3xl p-8 shadow-xl overflow-hidden group"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-200/30 to-pink-200/30 opacity-0 group-hover:opacity-100 transition"></div>
+          <p className="relative z-10 font-semibold text-gray-800 text-center text-lg">
+            {topic}
+          </p>
+        </motion.div>
+      ))}
+    </div>
+
+    <p className="mt-12 text-center text-gray-700 font-medium">
+      Available in English & Kannada • Certification • Daily Notes • Assignments • 24/7 Online Access
+    </p>
+  </motion.div>
+
+</section>
 
       {/* Impact Highlights */}
       <div className="max-w-8xl mx-auto mb-18">
@@ -261,17 +326,8 @@ const Education = () => {
     transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
   />
 </motion.button>
-
   </div>
 </section>
-
-
-
-
-
-
-
-
     </div>
   );
 };
