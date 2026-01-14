@@ -21,7 +21,7 @@ const Navbar = () => {
               <img
                 src={LogoImg}
                 alt="Samvith Logo"
-                className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto object-contain"
+                className="h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 w-auto object-contain"
               />
             </NavLink>
           </div>
